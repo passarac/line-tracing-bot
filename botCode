@@ -1,0 +1,71 @@
+let loop: number[] = []
+let RefR = 0
+let RefL = 0
+let R = 0
+let count = 0
+let L = 0
+basic.showNumber(count)
+while (!(input.buttonIsPressed(Button.A))) {
+    if (input.buttonIsPressed(Button.B)) {
+        count = count + 1
+        basic.showNumber(count)
+    }
+}
+basic.showIcon(IconNames.Yes)
+RefL = 1250
+RefR = 1250
+loop = [6, 2, 2, 3, 2, 3, 5, 2, 1, 4]
+basic.forever(() => {
+    L = iBIT.ReadADC(ibitReadADC.ADC1)
+    R = iBIT.ReadADC(ibitReadADC.ADC0)
+    if (L > RefL && R > RefR) {
+        iBIT.Motor(ibitMotor.Forward, 60)
+    } else if (L < RefL && R > RefR) {
+        //iBIT.Spin(ibitSpin.Right, 45)
+        iBIT.Turn(ibitTurn.Right, 30)
+    } else if (L > RefL && R < RefR) {
+        //iBIT.Spin(ibitSpin.Left, 40)
+        iBIT.Turn(ibitTurn.Left, 30)
+    } else if (L < RefL && R < RefR) {
+        music.playTone(262, music.beat(BeatFraction.Sixteenth))
+        if (loop[count] == 1) { //left
+            // music.playTone(247,
+            //music.beat(BeatFraction.Half))
+            iBIT.MotorStop()
+            iBIT.Turn(ibitTurn.Right, 30)
+            basic.pause(550)
+        } else if (loop[count] == 2) {
+            // music.playTone(247,
+            // music.beat(BeatFraction.Half))
+            iBIT.Motor(ibitMotor.Forward, 30)
+            basic.pause(600)
+        }
+        else if (loop[count] == 3) {
+            iBIT.MotorStop()
+            // music.playTone(247,
+            // music.beat(BeatFraction.Half))
+            iBIT.Turn(ibitTurn.Left, 30)
+            basic.pause(780)
+        }
+        else if (loop[count] == 4) {
+            while (true) {
+                iBIT.MotorStop()
+            }
+        }
+        else if (loop[count] == 5) {
+            iBIT.MotorStop()
+            // music.playTone(247,
+            // music.beat(BeatFraction.Half))
+            iBIT.Turn(ibitTurn.Left, 30)
+            basic.pause(1500)
+        }
+        else if (loop[count] == 6) {
+            iBIT.MotorStop()
+            // music.playTone(247,
+            // music.beat(BeatFraction.Half))
+            iBIT.Turn(ibitTurn.Left, 30)
+            basic.pause(600)
+        }
+        count += 1
+    }
+})
